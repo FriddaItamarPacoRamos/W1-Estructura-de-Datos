@@ -1,0 +1,76 @@
+#Archivos Python 
+#Lucas Mendez Brun
+import os
+
+def crear_archivo():
+    nombre_archivo = input("Ingrese el nombre del archivo: ")
+    contenido = input("Ingrese el contenido del archivo: \n")
+    
+    with open(nombre_archivo, 'w') as archivo:
+        archivo.write(contenido)
+    
+    print(f"Archivo '{nombre_archivo}' creado exitosamente.\n")
+
+def leer_archivo():
+    nombre_archivo = input("Ingrese el nombre del archivo para leer: ")
+    
+    if os.path.exists(nombre_archivo):
+        with open(nombre_archivo, 'r') as archivo:
+            contenido = archivo.read()
+        
+        print(f"Contenido del archivo '{nombre_archivo}':\n")
+        print(contenido)
+    else:
+        print(f"El archivo '{nombre_archivo}' no existe.\n")
+
+def modificar_archivo():
+    nombre_archivo = input("Ingrese el nombre del archivo a modificar: ")
+    
+    if os.path.exists(nombre_archivo):
+        print(f"El archivo '{nombre_archivo}' existe. ¿Qué desea hacer?")
+        print("1. Sobrescribir el contenido")
+        print("2. Añadir al final del archivo")
+        opcion = input("Ingrese su opción (1/2): ")
+        
+        if opcion == '1':
+            nuevo_contenido = input("Ingrese el nuevo contenido del archivo: ")
+            with open(nombre_archivo, 'w') as archivo:
+                archivo.write(nuevo_contenido)
+            print(f"Contenido del archivo '{nombre_archivo}' sobrescrito exitosamente.\n")
+        elif opcion == '2':
+            contenido_adicional = input("Ingrese el contenido adicional para el archivo: ")
+            with open(nombre_archivo, 'a') as archivo:
+                archivo.write(contenido_adicional)
+            print(f"Contenido adicional añadido al archivo '{nombre_archivo}' exitosamente.\n")
+        else:
+            print("Opción no válida. Por favor, intente de nuevo.\n")
+    else:
+        print(f"El archivo '{nombre_archivo}' no existe.\n")
+
+def mostrar_menu():
+    print("Gestión de Archivos")
+    print("1. Crear archivo")
+    print("2. Leer archivo")
+    print("3. Modificar archivo")
+    print("4. Salir")
+    print()
+
+def main():
+    while True:
+        mostrar_menu()
+        opcion = input("Ingrese su opción (1-4): ")
+        
+        if opcion == '1':
+            crear_archivo()
+        elif opcion == '2':
+            leer_archivo()
+        elif opcion == '3':
+            modificar_archivo()
+        elif opcion == '4':
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida. Por favor, intente de nuevo.\n")
+
+if __name__ == "__main__":
+    main()
