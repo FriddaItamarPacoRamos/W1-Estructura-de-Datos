@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+// Definición del nodo del árbol
+struct Nodo {
+    int valor;
+    Nodo* izquierdo;
+    Nodo* derecho;
+
+    Nodo(int val) : valor(val), izquierdo(nullptr), derecho(nullptr) {}
+};
+
+// Función para insertar un valor en el árbol
+Nodo* insertar(Nodo* nodo, int valor) {
+    if (nodo == nullptr) {
+        return new Nodo(valor);
+    }
+
+    if (valor < nodo->valor) {
+        nodo->izquierdo = insertar(nodo->izquierdo, valor);
+    } else if (valor > nodo->valor) {
+        nodo->derecho = insertar(nodo->derecho, valor);
+    }
+
+    return nodo;
+}
+
+// Función para buscar un valor en el árbol
+bool buscar(Nodo* nodo, int valor) {
+    if (nodo == nullptr) {
+        return false;
+    }
+
+    if (valor == nodo->valor) {
+        return true;
+    } else if (valor < nodo->valor) {
+        return buscar(nodo->izquierdo, valor);
+    } else {
+        return buscar(nodo->derecho, valor);
+    }
+}
+
+// Función para recorrer el árbol en orden
+void enOrden(Nodo* nodo) {
+    if (nodo != nullptr) {
+        enOrden(nodo->izquierdo);
+        cout << nodo->valor << " ";
+        enOrden(nodo->derecho);
+    }
+}
+
+int main() {
+    Nodo* raiz = nullptr;
+
+    // Insertar valores en el árbol
+    raiz = insertar(raiz, 50);
+    insertar(raiz, 30);
+    insertar(raiz, 70);
+    insertar(raiz, 20);
+    insertar(raiz, 40);
+    insertar(raiz, 60);
+    insertar(raiz, 80);
+
+    // Mostrar el árbol en orden
+    cout << "Recorrido en orden: ";
+    enOrden(raiz);
+    cout << "\n";
+
+    // Buscar valores en el árbol
+    int valorBuscar = 40;
+    if (buscar(raiz, valorBuscar)) {
+        cout << "El valor " << valorBuscar << " se encontró en el árbol.\n";
+    } else {
+        cout << "El valor " << valorBuscar << " no se encontró en el árbol.\n";
+    }
+
+    valorBuscar = 25;
+    if (buscar(raiz, valorBuscar)) {
+        cout << "El valor " << valorBuscar << " se encontró en el árbol.\n";
+    } else {
+        cout << "El valor " << valorBuscar << " no se encontró en el árbol.\n";
+    }
+
+    return 0;
+}
