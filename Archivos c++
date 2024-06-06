@@ -1,0 +1,117 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+void crear_archivo() {
+    string nombre_archivo;
+    string contenido;
+
+    cout << "Ingrese el nombre del archivo: ";
+    cin >> nombre_archivo;
+    cout << "Ingrese el contenido del archivo: " << endl;
+    cin.ignore(); 
+    getline(cin, contenido);
+
+    ofstream archivo(nombre_archivo);
+    archivo << contenido;
+    archivo.close();
+
+    cout << "Archivo '" << nombre_archivo << "' creado exitosamente." << endl;
+}
+
+void leer_archivo() {
+    string nombre_archivo;
+
+    cout << "Ingrese el nombre del archivo para leer: ";
+    cin >> nombre_archivo;
+
+    ifstream archivo(nombre_archivo);
+    if (archivo.is_open()) {
+        string contenido((istreambuf_iterator<char>(archivo)), istreambuf_iterator<char>());
+        archivo.close();
+
+        cout << "Contenido del archivo '" << nombre_archivo << "':" << endl;
+        cout << contenido << endl;
+    } else {
+        cout << "El archivo '" << nombre_archivo << "' no existe." << endl;
+    }
+}
+
+void modificar_archivo() {
+    string nombre_archivo;
+
+    cout << "Ingrese el nombre del archivo a modificar: ";
+    cin >> nombre_archivo;
+
+    ifstream archivo(nombre_archivo);
+    if (archivo.is_open()) {
+        cout << "El archivo '" << nombre_archivo << "' existe. ¿Qué desea hacer?" << endl;
+        cout << "1. Sobrescribir el contenido" << endl;
+        cout << "2. Añadir al final del archivo" << endl;
+        string opcion;
+        cin >> opcion;
+
+        if (opcion == "1") {
+            string nuevo_contenido;
+            cout << "Ingrese el nuevo contenido del archivo: ";
+            cin.ignore(); 
+            getline(cin, nuevo_contenido);
+
+            ofstream archivo(nombre_archivo);
+            archivo << nuevo_contenido;
+            archivo.close();
+
+            cout << "Contenido del archivo '" << nombre_archivo << "' sobrescrito exitosamente." << endl;
+        } else if (opcion == "2") {
+            string contenido_adicional;
+            cout << "Ingrese el contenido adicional para el archivo: ";
+            cin.ignore(); // Ignorar el salto de línea anterior
+            getline(cin, contenido_adicional);
+
+            ofstream archivo(nombre_archivo, ios_base::app);
+            archivo << contenido_adicional;
+            archivo.close();
+
+            cout << "Contenido adicional añadido al archivo '" << nombre_archivo << "' exitosamente." << endl;
+        } else {
+            cout << "Opción no válida. Por favor, intente de nuevo." << endl;
+        }
+    } else {
+        cout << "El archivo '" << nombre_archivo << "' no existe." << endl;
+    }
+}
+
+void mostrar_menu() {
+    cout << "Gestión de Archivos" << endl;
+    cout << "1. Crear archivo" << endl;
+    cout << "2. Leer archivo" << endl;
+    cout << "3. Modificar archivo" << endl;
+    cout << "4. Salir" << endl;
+    cout << endl;
+}
+
+int main() {
+    while (true) {
+        mostrar_menu();
+        string opcion;
+        cout << "Ingrese su opción (1-4): ";
+        cin >> opcion;
+
+        if (opcion == "1") {
+            crear_archivo();
+        } else if (opcion == "2") {
+            leer_archivo();
+        } else if (opcion == "3") {
+            modificar_archivo();
+        } else if (opcion == "4") {
+            cout << "Saliendo del programa..." << endl;
+            break;
+        } else {
+            cout << "Opción no válida. Por favor, intente de nuevo." << endl;
+        }
+    }
+
+    return 0;
+}
